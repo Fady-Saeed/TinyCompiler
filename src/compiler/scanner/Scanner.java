@@ -21,7 +21,7 @@ public class Scanner{
     private static final String COLON = ":";
     private static final String EQUAL = "=";
 
-    private static String tokenAccumlator = "";
+    private static StringBuilder tokenAccumlator = new StringBuilder();
 
     private static STATE currentState = STATE.START;
 
@@ -29,7 +29,7 @@ public class Scanner{
         String currentLetter, nextLetter;
 
         currentState = STATE.START;
-        tokenAccumlator = "";
+        tokenAccumlator = new StringBuilder();
         Tokens = new ArrayList<>();
 
         for(int counter = -1; counter < code.length() - 1; counter++){
@@ -38,22 +38,22 @@ public class Scanner{
 
             switch(currentState) {
                 case START:
-                    tokenAccumlator = "";
+                    tokenAccumlator = new StringBuilder();
                     if (nextLetter.matches(WHITE_SPACE)) {
                         currentState = STATE.START;
                     } else if (nextLetter.matches(CURELY_BRACES_OPENING)) {
                         currentState = STATE.INCOMMENT;
                     } else if (nextLetter.matches(DIGIT)) {
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                         currentState = STATE.INNUM;
                     } else if (nextLetter.matches(LETTER)) {
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                         currentState = STATE.INID;
                     } else if (nextLetter.matches(COLON)) {
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                         currentState = STATE.INASSIGN;
                     } else {
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                         setDoneState(nextLetter);
                     }
                     break;
@@ -64,7 +64,7 @@ public class Scanner{
                 case INNUM:
                     if (nextLetter.matches(DIGIT)) {
                         currentState = STATE.INNUM;
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                     } else {
                         setDoneState(nextLetter);
                         counter--;
@@ -73,7 +73,7 @@ public class Scanner{
                 case INID:
                     if (nextLetter.matches(LETTER) || nextLetter.matches(DIGIT)) {
                         currentState = STATE.INID;
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                     } else {
                         setDoneState(nextLetter);
                         counter--;
@@ -81,7 +81,7 @@ public class Scanner{
                     break;
                 case INASSIGN:
                     if (nextLetter.matches(EQUAL)){
-                        tokenAccumlator += nextLetter;
+                        tokenAccumlator.append(nextLetter);
                     }
                     setDoneState(nextLetter);
                     break;
@@ -91,9 +91,9 @@ public class Scanner{
         return Tokens;
     }
     private static void setDoneState(String currentLetter){
-        if(!tokenAccumlator.replaceAll("\\s+","").equals(""))
-            Tokens.add(new Token(tokenAccumlator.trim()));
+        if(!tokenAccumlator.toString().replaceAll("\\s+","").equals(""))
+            Tokens.add(new Token(tokenAccumlator.toString().trim()));
         currentState = STATE.START;
-        tokenAccumlator = "";
+        tokenAccumlator = new StringBuilder();
     }
 }
