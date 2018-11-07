@@ -23,6 +23,8 @@ public class TokenType {
             type = TYPE.RESEVED_WORD.toString();
         else if(SPECIAL_SYMBOLS.contains(value))
             type = TYPE.SPECIAL_SYMBOL.toString();
+        else if(value.equals(TYPE.ASSIGN.toString()))
+            type = TYPE.ASSIGN.toString();
         else
             type = TYPE.IDENTIFIER.toString();
         return type;
@@ -36,7 +38,8 @@ public class TokenType {
         RESEVED_WORD,
         SPECIAL_SYMBOL,
         NUMBER,
-        IDENTIFIER
+        IDENTIFIER,
+        ASSIGN
     };
     private static final ArrayList<String> RESEVED_WORDS = new ArrayList<>(
             Arrays.asList(
@@ -48,11 +51,14 @@ public class TokenType {
 
     private static final ArrayList<String> SPECIAL_SYMBOLS = new ArrayList<>(
             Arrays.asList(
-                "+","-","*","/",
-                "=", "<",
-                "(",")",";",":="
+                    "+","-","*","/",
+                    "=", "<",
+                    "(",")",";"
             )
     );
+
+    private static final String ASSIGN_SYMBOL = ":=";
+
 
     @Override
     public boolean equals(Object o){
