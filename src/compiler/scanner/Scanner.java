@@ -9,8 +9,7 @@ public class Scanner{
         INCOMMENT,
         INNUM,
         INID,
-        INASSIGN,
-        DONE
+        INASSIGN
     };
 
     private static final String WHITE_SPACE = "\\s";
@@ -26,14 +25,15 @@ public class Scanner{
     private static STATE currentState = STATE.START;
 
     public static ArrayList<Token> scan(String code){
-        String currentLetter, nextLetter;
+        String nextLetter;
 
         currentState = STATE.START;
         tokenAccumlator = new StringBuilder();
         Tokens = new ArrayList<>();
 
+        code += " ";
+
         for(int counter = -1; counter < code.length() - 1; counter++){
-//            currentLetter = Character.toString(code.charAt(counter));
             nextLetter = Character.toString(code.charAt(counter+1));
 
             switch(currentState) {
@@ -87,7 +87,6 @@ public class Scanner{
                     break;
             }
         }
-//        setDoneState(Character.toString(code.charAt(code.length()-1)));
         return Tokens;
     }
     private static void setDoneState(String currentLetter){
