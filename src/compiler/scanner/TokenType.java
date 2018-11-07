@@ -23,7 +23,7 @@ public class TokenType {
             type = TYPE.RESEVED_WORD.toString();
         else if(SPECIAL_SYMBOLS.contains(value))
             type = TYPE.SPECIAL_SYMBOL.toString();
-        else if(value.equals(TYPE.ASSIGN.toString()))
+        else if(value.equals(ASSIGN_SYMBOL))
             type = TYPE.ASSIGN.toString();
         else
             type = TYPE.IDENTIFIER.toString();
